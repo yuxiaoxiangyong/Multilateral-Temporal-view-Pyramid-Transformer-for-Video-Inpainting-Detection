@@ -17,7 +17,7 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
 
 ## 🌏Overview
 
-<img src=".\images\overview_00(1).png" style="zoom: 25%;" />
+<img src=".\images\overview.png" style="zoom: 25%;" />
 
 ##  🌄Get Started
 
