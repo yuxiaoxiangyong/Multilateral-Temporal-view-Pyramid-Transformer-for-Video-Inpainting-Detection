@@ -19,13 +19,13 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
 
 <img src=".\images\overview_00(1).png" style="zoom: 25%;" />
 
-## 3 Get Started
+##  Get Started
 
-## 4 Dataset Links
+##  Dataset Links
 
-## 5 More Analysis
+##  More Analysis
 
-## 6 Citation
+##  Citation
 If you find our repo useful for your research, please consider citing our paper:
 ```latex
 @article{zhang2024multilateral,
@@ -38,5 +38,5 @@ If you find our repo useful for your research, please consider citing our paper:
 
 ****
 
-## 7 Contact
+##  Contact
 If you have any questions, please feel free to reach me out at yingzhang@stu.ouc.edu.cn.
