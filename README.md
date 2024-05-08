@@ -21,7 +21,7 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
 
 ##  Get Started
 
-##  Dataset Links
+##  Dataset
 
 ##  More Analysis
 
