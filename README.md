@@ -6,6 +6,7 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
 
 ## ⏰Update
 
+- **2024-07-21:** 📢 Mumpy is accepted by BMVC2024! 
 - **2024-05-08**: The repo is created. 
 
 
@@ -29,7 +30,9 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
 
 ##  💬More Analysis
 
+1. What is inpainting detection? And What the solvement of former reserch?
 
+   
 
 ##  📧Contact
 If you have any questions, please feel free to reach me out at yingzhang@stu.ouc.edu.cn.
