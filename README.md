@@ -6,15 +6,15 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
 
 ## ⏰Update
 
-- **2024-07-21:** 📢 Mumpy is accepted by BMVC2024! 
+- **2024-07-21:** 📢 Mumpy is accepted by **BMVC2024**! 
 - **2024-05-08**: The repo is created. 
 
 
 ## ⏳Todo 
 - [ ] Make model and code available. 
-- [ ] Make user guideline. 
+- [ ] Make user guideline available. 
 - [ ] Provide YTVI, DVI and FVI dataset. 
-- [ ] More analysis on multiple-pyramid decoder
+- [ ] More analysis on why multiple-pyramid decoder.
 
 ## 🌏Overview
 
@@ -30,7 +30,7 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
 
 ##  💬More Analysis
 
-1. What is inpainting detection? And What the solvement of former reserch?
+1. What is inpainting detection? And What is the solvement of former research?
 
    
 
