@@ -27,12 +27,10 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
 
 ##  📑Dataset
 
-1. Since the size of the generated image by inpainting methods can influence the richness of the provided information, for fair comparision, we generated 224x224 inpainted images on OP and CP. However, as VI only supports 256x256 and 512x512 images, we resized them accordingly. 
+1. Since the size of the generated image by inpainting methods can influence the richness of the provided information, for fair comparision, we generated 224x224 inpainted images on OP and CP. However, as VI only supports 256x256 and 512x512 images, we resized them accordingly. All the experiments on [DVI]( https://drive.google.com/file/d/1bEtMe4lGwKhIjT9CYEfCyBohxU-DrGOj/view?usp=drive_link) follow the above principle. 
 
-​		[DVI-VI/OP/CP]( https://drive.google.com/file/d/1bEtMe4lGwKhIjT9CYEfCyBohxU-DrGOj/view?usp=drive_link)
-
-2. YTVI.
-3. FVI. 
+3. YTVI.
+4. FVI. 
 
 ##  💬More Analysis
 
