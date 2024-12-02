@@ -90,11 +90,7 @@ def db_read_years():
 
 def db_read_sequences(year=None, db_phase=None):
   """ Read list of sequences. """
-  #pdb.set_trace()
-  #print(db_phase)
-  #print(year)
   sequences = db_read_info()#.sequences
-  #print(sequences)
   if year is not None:
     sequences = filter(
         lambda s:int(s["year"]) <= int(year), sequences)
@@ -106,8 +102,7 @@ def db_read_sequences(year=None, db_phase=None):
     else:
       sequences = filter(
           lambda s:s["set"] == db_phase and osp.isdir(osp.join(__C.PATH.SEQUENCES, s["video_name"])), sequences)
-  #print(sequences)
-  #print("1")
+
   return sequences
 
 # Load all sequences

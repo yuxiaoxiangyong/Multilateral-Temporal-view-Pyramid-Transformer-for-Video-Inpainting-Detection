@@ -207,9 +207,6 @@ class Decoder(nn.Module):
         seb1 = self.seb1([rgb3, rgb4])
         gcn1 = self.gcm2(seb1) # channel : num_classes
 
-        #print(rgb2.shape)
-        #print(rgb3.shape)
-        #print(torch.cat([rgb3, self.upsample2(rgb4)], dim=1).shape)
         seb2 = self.seb2([rgb2, torch.cat([rgb3, self.upsample2(rgb4)], dim=1)])
         gcn2 = self.gcm3(seb2) # channel : num_classes * dap_k**2
 
@@ -224,7 +221,7 @@ class Decoder(nn.Module):
         x = self.decoder_5(x*freq0) # features[3] -> features[4]
         x_feats = self.DAP(x)
         binary_mask = self.final_out(x_feats)
-        # The output feature of DAP is what we need to calculate the Loss_MAP  
+
         return binary_mask, x_feats
     
 
@@ -277,12 +274,12 @@ class BaselineDecoder(nn.Module):
 
         
     def forward(self, x):
-        
-        
         x = self.decoder_1(x)
         x = self.decoder_2(x)
         x = self.decoder_3(x)
         x = self.decoder_4(x) 
         x = self.decoder_5(x)
         x = self.final_out(x) 
+
         return x
+

@@ -1,16 +1,13 @@
-"""
-    ViT Blocks
-    Adapted from 2020 Ross Wightman
-    https://github.com/rwightman/pytorch-image-models
-"""
+##########################ViT Blocks###########################
+#               Adapted from 2020 Ross Wightman               #
+#      https://github.com/rwightman/pytorch-image-models      #
+###############################################################
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from einops import rearrange
 from pathlib import Path
-
-import torch.nn.functional as F
-
 from timm.models.layers import DropPath
 
 
@@ -44,7 +41,6 @@ class Attention(nn.Module):
         head_dim = dim // heads
         self.scale = head_dim ** -0.5
         self.attn = None
-
         self.qkv = nn.Linear(dim, dim * 3)
         self.attn_drop = nn.Dropout(dropout)
         self.proj = nn.Linear(dim, dim)
@@ -59,7 +55,7 @@ class Attention(nn.Module):
         qkv = (
             self.qkv(x)
             .reshape(B, N, 3, self.heads, C // self.heads)
-            .permute(2, 0, 3, 1, 4) # 3 * B * heads * N * dim
+            .permute(2, 0, 3, 1, 4)
         )
         q, k, v = (
             qkv[0],

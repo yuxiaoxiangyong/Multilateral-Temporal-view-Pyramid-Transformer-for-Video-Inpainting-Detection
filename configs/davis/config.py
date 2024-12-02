@@ -1,16 +1,13 @@
 #!/usr/bin/env python
+""" Davis Configuration file."""
 import yaml
-
-""" Configuration file."""
-
+import pdb
 import os
 import os.path as osp
-
 import sys
+from enum import Enum
 from easydict import EasyDict as edict
 
-from enum import Enum
-import pdb
 class phase(Enum):
     TRAIN    = 'train'
     VAL      = 'val'
@@ -91,9 +88,7 @@ def db_read_years():
 
 def db_read_sequences(year=None,db_phase=None):
   """ Read list of sequences. """
-  #pdb.set_trace()
   sequences = db_read_info().sequences
-  #print(sequences)
   if year is not None:
     sequences = filter(
         lambda s:int(s.year) <= int(year),sequences)
