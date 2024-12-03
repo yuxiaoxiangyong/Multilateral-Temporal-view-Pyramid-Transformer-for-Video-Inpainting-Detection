@@ -6,11 +6,11 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 from PIL import Image
-from model.encoder import Encoder
-from model.decoder import Decoder
+from models.encoder.encoder import Encoder
+from models.decoder.decoder import Decoder
 from utils.dataset_utils import get_dataset
 from args import get_parser
-from utils.utils import make_dir,load_checkpoint
+from utils.utils import make_dir, load_checkpoint
 
 from torchvision import transforms
 matplotlib.use('Agg')
@@ -24,26 +24,20 @@ class Evaluate():
                                          std=[0.230, 0.2085, 0.2324])
         image_transforms = transforms.Compose([to_tensor, normalize])
         if args.dataset == 'davis':
-            dataset = get_dataset( args,
+            dataset = get_dataset(args,
                                 split=self.split,
                                 image_transforms=image_transforms,
                                 target_transforms=None,
-                                augment=args.augment and self.split == 'train',
-                                inputRes = (224,224),
-                                video_mode = True,
-                                use_prev_mask = False,
-                                use_ela=True)
+                                augment=False,
+                                inputRes = (224,224))
         elif args.dataset == 'youtubevos': 
             dataset = get_dataset(args,
                                 split=self.split,
                                 image_transforms=image_transforms,
                                 target_transforms=None,
-                                augment=args.augment and self.split == 'train',
-                                inputRes = (224,224),
-                                video_mode = True,
-                                use_prev_mask = False,
-                                use_ela=True)
-          
+                                augment=False,
+                                inputRes = (224,224))
+
         self.loader = data.DataLoader(dataset, 
                                     batch_size=args.batch_size,
                                     shuffle=False,
@@ -53,7 +47,7 @@ class Evaluate():
         self.args = args
 
         print(args.model_name)
-        encoder_dict, decoder_dict, enc_opt_dict, dec_opt_dict, load_args = load_checkpoint(args.model_name,args.use_gpu)
+        encoder_dict, decoder_dict, enc_opt_dict, dec_opt_dict, load_args = load_checkpoint(args.model_name, args.use_gpu, args.test_epoch)
         load_args.use_gpu = args.use_gpu
         self.encoder = Encoder()
         self.decoder = Decoder()
@@ -84,11 +78,11 @@ class Evaluate():
         print ("Dataset is %s"%(self.dataset))
         print ("Split is %s"%(self.split))
         if args.dataset == 'youtubevos':
-            masks_sep_dir = os.path.join('../src/models', args.model_name, 'masks_'+cfg.PATH.SEQUENCES.split('/')[-2])
+            masks_sep_dir = os.path.join('../results', args.model_name, 'masks_'+cfg.PATH.SEQUENCES.split('/')[-2])
         if args.dataset == 'davis':
-            masks_sep_dir = os.path.join('../src/models', args.model_name, 'masks_'+cfg.PATH.SEQUENCES.split('/')[-3])
+            masks_sep_dir = os.path.join('../results', args.model_name, 'masks_'+cfg.PATH.SEQUENCES.split('/')[-3])
         make_dir(masks_sep_dir)
-
+        print(len(self.loader))
         for _, (inputs, _, seq_name, starting_frame) in enumerate(self.loader): 
             base_dir_masks_sep = masks_sep_dir + '/' + seq_name[0] + '/'
             make_dir(base_dir_masks_sep)
@@ -108,16 +102,13 @@ class Evaluate():
             x_tmp = x.data.cpu().numpy()
             height = x_tmp.shape[-2]
             width = x_tmp.shape[-1]
-            for t in range(1):
-                mask_pred = (torch.squeeze(outs[0, t, :])).detach().cpu().numpy()
-                mask_pred = np.reshape(mask_pred, (height, width))
-                indxs_instance = np.where(mask_pred > 0.5)
-                mask2assess = np.zeros((height, width))
-                mask2assess[indxs_instance] = 255
-                #if starting_frame[0] == -1:
-                Image.fromarray((mask2assess).astype('uint8')).save(base_dir_masks_sep + '%04d_instance_%02d.png' % (starting_frame, t))
-                #else:
-                #    Image.fromarray((mask2assess).astype('uint8')).save(base_dir_masks_sep + '%04d_instance_%02d.png' % (list[list.index(starting_frame)+1], t))
+
+            mask_pred = (torch.squeeze(outs[0, 0, :])).detach().cpu().numpy()
+            mask_pred = np.reshape(mask_pred, (height, width))
+            indxs_instance = np.where(mask_pred > 0.5)
+            mask2assess = np.zeros((height, width))
+            mask2assess[indxs_instance] = 255
+            Image.fromarray((mask2assess).astype('uint8')).save(base_dir_masks_sep + '%04d_instance_%02d.png' % (starting_frame, 0))
                     
                     
 if __name__ == "__main__":
@@ -125,9 +116,9 @@ if __name__ == "__main__":
     parser = get_parser()
     args = parser.parse_args()
     if args.dataset == 'youtubevos':
-        from configs.config_youtube import cfg
+        from configs.youtube.config import cfg
     if args.dataset == 'davis':
-        from configs.config import cfg
+        from configs.davis.config import cfg
     gpu_id = args.gpu_id
     if args.use_gpu:
         torch.cuda.set_device(device=gpu_id)

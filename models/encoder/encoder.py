@@ -4,7 +4,6 @@ from models.factory.modelFactory import create_multiswin, create_baseline
 
 
 class Encoder(nn.Module):
-
     def __init__(self):
         super().__init__()
         self.base, self.configs = create_multiswin()
@@ -32,7 +31,6 @@ class BaselineEncoder(nn.Module):
 
 
 class ThreeViewSpatialEncoder(nn.Module):
-
     def __init__(self):
         super().__init__()
         self.base, self.configs = create_multiswin()

@@ -98,6 +98,8 @@ def get_parser():
     # augmentation
     parser.add_argument('--augment', dest='augment', action='store_true')
     parser.set_defaults(augment=False)
+    parser.add_argument('--singleAugment', dest='singleAugment', action='store_true')
+    parser.set_defaults(augment=True)
     parser.add_argument('-rotation', dest='rotation', default = 10, type=int)
     parser.add_argument('-translation', dest='translation', default = 0.1, type=float)
     parser.add_argument('-shear', dest='shear', default = 0.1, type=float)
@@ -135,6 +137,7 @@ def get_parser():
     parser.add_argument('-min_size',dest='min_size', default=0.001, type=float)
     parser.add_argument('--display', dest='display', action='store_true')
     parser.add_argument('--no_display_text', dest='no_display_text', action='store_true')
+    parser.add_argument('-test_epoch', dest='test_epoch', default=0, type=int)
     parser.set_defaults(display=False)
     parser.set_defaults(display_route=False)
     parser.set_defaults(no_display_text=False)

@@ -18,6 +18,7 @@ else:
 class UniversalLoader(UniversalDataset):
 
     def __init__(self, args, split='train', augment=False, inputRes=None, transform=None):
+        self.singleAugment = args.singleAugment
         self._year = args.year
         self._phase = split
         self.split = split
@@ -33,7 +34,7 @@ class UniversalLoader(UniversalDataset):
             self.sequences = [Sequence(self._phase, s["video_name"], regex='*.jpg') for s in self._db_sequences]
         if "davis" in self.dataset:
             self.sequences = [Sequence(self._phase, s.name, regex='*.png') for s in self._db_sequences]
-        # print(len(self.sequences))
+
         # Load sequence clips
         self.sequence_clips = []
         self._db_sequences = db_read_sequences(self._year, self._phase)

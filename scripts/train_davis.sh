@@ -1,7 +1,7 @@
 #!/bin/bash
 
 python3 ../train.py                \
--model_name=/home/zhangying/opt/apps/mumpy_test  \
+-model_name=mumpy_test             \
 -year=2016                         \
 -dataset=davis                     \
 -batch_size=6                      \

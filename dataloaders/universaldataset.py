@@ -4,7 +4,7 @@ import os.path as osp
 import torch.utils.data as data
 from PIL import Image
 from args import get_parser
-from utils.randaugment import RandAugment
+from utils.randaugment import RandAugment, OneAugmentStrategy, DoubleAugmentStrategy
 
 parser = get_parser()
 args = parser.parse_args()
@@ -18,6 +18,7 @@ else:
 class UniversalDataset(data.Dataset):
 
     def __init__(self, args, augment=False, split='train', inputRes=None, transform=None):
+        self.singleAugment = args.singleAugment
         self._length_clip = args.length_clip
         self.augment = augment
         self.split = split
@@ -27,7 +28,7 @@ class UniversalDataset(data.Dataset):
 
     def __getitem__(self, index):
 
-        if self.split == 'train' or self.split == 'val' or self.split == 'trainval':
+        if self.split in ('train', 'val', 'test', 'trainval'):
 
             edict = self.get_raw_sample_clip(index)
             sequence_clip = edict['images']
@@ -58,9 +59,7 @@ class UniversalDataset(data.Dataset):
                 img1 = Image.open(frame_img.replace(cfg.PATH.SEQUENCES, cfg.PATH.SEQUENCES2))
                 img2 = Image.open(frame_img.replace(cfg.PATH.SEQUENCES,
                                                     cfg.PATH.SEQUENCES3)) if cfg.PATH.SEQUENCES3 is not None else None
-                # print(frame_img)
-                # print(frame_img.replace(cfg.PATH.SEQUENCES, cfg.PATH.SEQUENCES2))
-                # print(frame_img.replace(cfg.PATH.SEQUENCES, cfg.PATH.SEQUENCES3))
+
                 frame_annot = osp.join(annot_seq_dir, '%05d.png' % frame_idx)
                 annot = Image.open(frame_annot).convert('L')
 
@@ -98,9 +97,14 @@ class UniversalDataset(data.Dataset):
                     imgs2.append(img2)
                 targets.append(target)
 
-                # only train phase excute data augumentation
+            # only train phase excute data augumentation
             if self.augment:
-                davis_randaugment = RandAugment(n=1, m=7)
+                davis_randaugment = None
+                if self.singleAugment:
+                    davis_randaugment = RandAugment(1, 7, OneAugmentStrategy())
+                else:
+                    davis_randaugment = RandAugment(1, 7, DoubleAugmentStrategy())
+
                 wait_aug_imgs = [img for img in origin_imgs + origin_imgs1 + origin_imgs2]
                 wait_aug_gt = origin_annots[int(self._length_clip / 2)]
                 iimg, mmask = davis_randaugment(wait_aug_imgs, wait_aug_gt)

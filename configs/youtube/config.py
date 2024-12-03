@@ -16,6 +16,7 @@ class phase(Enum):
     VAL      = 'val'
     TESTDEV  = 'test-dev'
     TRAINVAL = 'train-val'
+    TEST = 'test'
 
 __C = edict()
 
@@ -49,8 +50,8 @@ __C.PATH.DATA = osp.abspath('/media/zhangying/Database/YoutubeVOS-2018/train')
 __C.PATH.ORIGINAL = osp.join(__C.PATH.DATA,"inputs")
 
 __C.PATH.SEQUENCES3 = '/media/zhangying/Database/Youtubevos_2018_inpaintinged/IS/train'
-__C.PATH.SEQUENCES2 = '/media/zhangying/Database/Youtubevos_2018_inpaintinged/PP/train'
-__C.PATH.SEQUENCES = '/media/zhangying/Database/Youtubevos_2018_inpaintinged/CP/train'
+__C.PATH.SEQUENCES2 = '/media/zhangying/Database/Youtubevos_2018_inpaintinged/EG2/train'
+__C.PATH.SEQUENCES = '/media/zhangying/Database/Youtubevos_2018_inpaintinged/FF/train'
 
 __C.PATH.FLOW = '../../flownet2-pytorch/result/inference/run.epoch-0-flow-field'
 
@@ -58,13 +59,13 @@ __C.PATH.FLOW = '../../flownet2-pytorch/result/inference/run.epoch-0-flow-field'
 __C.PATH.ANNOTATIONS = osp.join(__C.PATH.DATA,"Annotations/")
 
 # Color palette
-__C.PATH.PALETTE = osp.abspath(osp.join(__C.PATH.ROOT, 'src/configs/palette.txt'))
+__C.PATH.PALETTE = osp.abspath(osp.join(__C.PATH.ROOT, 'configs/davis/palette.txt'))
 
 # Paths to files
 __C.FILES = edict()
 
 # Path to property file, holding information on evaluation sequences.
-__C.FILES.DB_INFO = osp.abspath(osp.join(__C.PATH.ROOT,"src/configs/youtubevos_2018.yaml"))
+__C.FILES.DB_INFO = osp.abspath(osp.join(__C.PATH.ROOT,"configs/youtube/youtubevos_2018.yaml"))
 
 # Measures and Statistics
 __C.EVAL = edict()
@@ -98,7 +99,10 @@ def db_read_sequences(year=None, db_phase=None):
   if db_phase is not None:
     if db_phase == phase.TRAINVAL:
       sequences = filter(
-          lambda s: ((s["set"] == phase.VAL) or (s["set"] == phase.TRAIN)), sequences)
+          lambda s: ((s["set"] == phase.VAL.value) or (s["set"] == phase.TRAIN.value)), sequences)
+    elif db_phase == phase.TEST.value:
+        sequences = filter(
+            lambda s : ((s["set"] == phase.VAL.value)), sequences)
     else:
       sequences = filter(
           lambda s:s["set"] == db_phase and osp.isdir(osp.join(__C.PATH.SEQUENCES, s["video_name"])), sequences)
@@ -109,4 +113,4 @@ def db_read_sequences(year=None, db_phase=None):
 __C.SEQUENCES = dict([(sequence["video_name"], sequence) for sequence in db_read_sequences()])
 
 import numpy as np
-__C.palette = np.loadtxt(__C.PATH.PALETTE,dtype=np.uint8).reshape(-1,3)
+__C.palette = np.loadtxt(__C.PATH.PALETTE, dtype=np.uint8).reshape(-1,3)

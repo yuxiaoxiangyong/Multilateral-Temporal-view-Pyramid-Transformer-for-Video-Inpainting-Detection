@@ -87,7 +87,7 @@ def init_dataloaders(args):
                                          shuffle=True,
                                          num_workers=args.num_workers,
                                          drop_last=True,
-                                         collate_fn=dataset.collate_fn)
+                                         collate_fn=dataset.collate_fn if "davis" in args.dataset else dataset.collate_fn_triple)
     return loaders
 
 
@@ -96,7 +96,6 @@ def trainIter(args, encoder, decoder, x, y_mask, crits, optims, focal, mode, ite
     mask_siou = crits 
     mask_focal = focal 
     enc_opt, dec_opt, cva_opt = optims 
-
 
     encoder.train(True)
     decoder.train(True)
@@ -130,13 +129,11 @@ def trainIter(args, encoder, decoder, x, y_mask, crits, optims, focal, mode, ite
         decoder.zero_grad()
         encoder.zero_grad()
 
-
     #
     losses = [loss.data.item(), loss_mask_iou.data.item(),loss_mask_focal.data.item()]
 
     out_mask = torch.sigmoid(out_mask)
     outs = out_mask
-
 
     return losses, outs
 
@@ -166,14 +163,13 @@ def valIter(args, encoder, decoder, x, y_mask, crits, focal):
         out_mask = torch.sigmoid(out_mask)
         outs = out_mask
 
-
     return losses, outs
 
 
 def trainIters(args):
 
     epoch_resume = 0
-    model_dir = os.path.join('../src/models/', args.model_name) # debug mark
+    model_dir = os.path.join('../results', args.model_name)
     
     if args.resume:
         encoder_dict, decoder_dict, enc_opt_dict, dec_opt_dict, load_args = load_checkpoint(args.model_name,args.use_gpu, epoch=args.epoch_resume)
@@ -285,22 +281,18 @@ def trainIters(args):
 
     if not args.log_term:
         print ("Training logs will be saved to:", os.path.join(model_dir, 'train.log'))
-    #print (args)
+
 
     # GPU 
     if args.use_gpu:
         encoder.cuda()
         decoder.cuda()
-        #mask_siou.cuda()
+
     if args.ngpus > 1 and args.use_gpu:
         decoder = torch.nn.DataParallel(decoder, device_ids=range(args.ngpus))
         encoder = torch.nn.DataParallel(encoder, device_ids=range(args.ngpus))
-        #mask_siou = torch.nn.DataParallel(mask_siou, device_ids=range(args.ngpus))
 
-    ## Set up the loss function.
-    #train_data_loader = train_dataset_loader_init(args)
-    #center, radius = load_center_radius(args, encoder, decoder, loaders["train"])
-    #LOSS_MAP = IsolatingLossFunction(center, radius).cuda()
+    # Set up the loss function.
     mask_focal = WeightedFocalLoss().cuda()
     mask_siou = softIoULoss().cuda()
 
@@ -318,6 +310,7 @@ def trainIters(args):
     mt_val = -1
     kernel = np.ones((5,5))
     kernel_tensor = torch.Tensor(np.expand_dims(np.expand_dims(kernel, 0), 0)).cuda()
+
     # keep track of the number of batches in each epoch for continuity when plotting curves
     num_batches = {'train': 0, 'val': 0}
     writer = SummaryWriter(model_dir)
@@ -393,20 +386,14 @@ def trainIters(args):
                     writer.add_scalar('LR/cva_lr',optims[2].param_groups[0]["lr"], tensorboard_step)
 
                     if tensorboard_step % 200 == 0:
-                        #x_im = vutils.make_grid([inv_normalize(k) for k in x], normalize=True, scale_each=True)
-                        #x1_im = vutils.make_grid([inv_normalize(k) for k in x1], normalize=True, scale_each=True)
-                        #x_ela_im = vutils.make_grid([inv_normalize(k) for k in x_ela], normalize=True, scale_each=True)                      
                         x_o = vutils.make_grid(outs.view(outs.shape[0],1,x.shape[-2],x.shape[-1]), normalize=True, scale_each=True)
                         x_m = vutils.make_grid(y_mask.view(y_mask.shape[0],y_mask.shape[1],x.shape[-2],x.shape[-1]), normalize=True, scale_each=True)
-                        #writer.add_image('images_1', x1_im, tensorboard_step)
-                        #writer.add_image('images', x_im, tensorboard_step)
-                        #writer.add_image('images_ela', x_ela_im, tensorboard_step)
                         writer.add_image('prediction', x_o, tensorboard_step)
                         writer.add_image('masks', x_m, tensorboard_step)    
 
-                    #Hidden temporal state from time instant ii is saved to be used when processing next time instant ii+1
                     tensorboard_step += 1 if split == "train" else 0
                     val_tensorboard_step += 1 if split == "val" else 0
+
                     # store loss values in dictionary separately
                     epoch_losses[split]['total'].append(losses[0])
                     epoch_losses[split]['iou1'].append(losses[1])
@@ -453,13 +440,12 @@ def trainIters(args):
             best_val_loss = mt
             args.best_val_loss = best_val_loss
             # saves model, params, and optimizers
-            save_checkpoint(args, encoder, decoder, enc_opt, dec_opt,epoch=args.epoch_resume) #if e >= 49 else None
+            save_checkpoint(args, encoder, decoder, enc_opt, dec_opt,epoch=args.epoch_resume)
             acc_patience = 0
-        elif args.epoch_resume==args.max_epoch-1:
+        elif args.epoch_resume==args.max_epoch - 1:
             save_checkpoint(args, encoder, decoder, enc_opt, dec_opt,epoch=args.epoch_resume)
         else:
             acc_patience += 1
-
 
         if acc_patience > args.patience and not args.update_encoder and not args.finetune_after == -1:
             print("Starting to update encoder")
@@ -472,12 +458,7 @@ def trainIters(args):
             decoder.load_state_dict(decoder_dict)
             enc_opt.load_state_dict(enc_opt_dict)
             dec_opt.load_state_dict(dec_opt_dict)
-            
 
-        # early stopping after N epochs without improvement
-        #if acc_patience > args.patience_stop:
-            #break
-        
         # save the last epoch model
         if e == (args.max_epoch / 2) - 1:
             save_checkpoint(args, encoder, decoder, enc_opt, dec_opt,epoch = e)
@@ -496,9 +477,6 @@ if __name__ == "__main__":
     gpu_id = args.gpu_id
     if args.use_gpu:
         torch.cuda.set_device(device=gpu_id)
-        #os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
-        #os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-        #os.environ["CUDA_VISIBLE_DEVICES"] = gpu_id
         torch.cuda.manual_seed(args.seed)
     print("done!")
     trainIters(args)

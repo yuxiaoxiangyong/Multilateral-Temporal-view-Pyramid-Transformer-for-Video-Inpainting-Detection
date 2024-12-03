@@ -80,7 +80,6 @@ class Sequence(BaseLoader):
       regex (string): regular expression to define image search pattern.
 
     """
-
     def __init__(self, split, name, regex="*.jpg", lmdb_env=None):
         super(Sequence, self).__init__(split, osp.join(cfg.PATH.SEQUENCES, name), regex, lmdb_env=lmdb_env)
 
@@ -94,7 +93,6 @@ class SequenceClip_simple:
       regex (string): regular expression to define image search pattern.
 
     """
-
     def __init__(self, seq, starting_frame, frame_id_list):
         self.__dict__.update(seq.__dict__)
         self.starting_frame = starting_frame
@@ -114,7 +112,6 @@ class SequenceClip(BaseLoader):
       regex (string): regular expression to define image search pattern.
 
     """
-
     def __init__(self, split, name, starting_frame, regex="*.jpg", lmdb_env=None):
         super(SequenceClip, self).__init__(
             split, osp.join(cfg.PATH.SEQUENCES, name), regex, lmdb_env=lmdb_env)
@@ -136,7 +133,6 @@ class Segmentation(BaseLoader):
       regex         (string): regular expression to define image search pattern.
 
     """
-
     def __init__(self, split, path, single_object, regex="*.png", lmdb_env=None):
         super(Segmentation, self).__init__(split, path, regex,
                                            functools.partial(_load_annotation, single_object=single_object),
@@ -174,7 +170,6 @@ class Annotation(Segmentation):
       regex         (string): regular expression to define image search pattern.
 
     """
-
     def __init__(self, split, name, single_object, regex="*.png", lmdb_env=None):
         super(Annotation, self).__init__(
             split, osp.join(cfg.PATH.ANNOTATIONS, name), single_object, regex, lmdb_env=lmdb_env)
@@ -190,7 +185,6 @@ class AnnotationClip_simple:
       regex         (string): regular expression to define image search pattern.
 
     """
-
     def __init__(self, annot, starting_frame, seq_len):
         self.__dict__.update(annot.__dict__)
         self.starting_frame = starting_frame
@@ -207,7 +201,6 @@ class AnnotationClip(Segmentation):
       regex         (string): regular expression to define image search pattern.
 
     """
-
     def __init__(self, split, name, starting_frame, single_object, regex="*.png", lmdb_env=None):
         super(AnnotationClip, self).__init__(
             split, osp.join(cfg.PATH.ANNOTATIONS, name), single_object, regex, lmdb_env=lmdb_env)
