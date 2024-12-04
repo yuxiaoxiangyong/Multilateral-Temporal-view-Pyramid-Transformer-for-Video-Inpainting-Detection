@@ -1,4 +1,18 @@
-__pycache__
-*.log
-*.error
-**/*.pth
+
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+# weights
+*.pth
+
+# images
+*.png
+*.jpg
+
+
