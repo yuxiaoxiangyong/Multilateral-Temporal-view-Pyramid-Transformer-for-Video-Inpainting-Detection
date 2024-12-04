@@ -42,19 +42,19 @@ __C.MULTIOBJECT = False
 __C.PATH.ROOT = osp.abspath('../')
 
 # Data folder
-__C.PATH.DATA = osp.abspath('/media/zhangying/Datas/gitCode/VIDNet/src/databases/DAVIS_2016_vi/')
+__C.PATH.DATA = osp.abspath('/databases/DAVIS_2016_vi/')
 
 # Path to input images
 __C.PATH.ORIGINAL = osp.join(__C.PATH.DATA, "Original", __C.RESOLUTION)
 
 __C.PATH.SEQUENCES3 = None
-__C.PATH.SEQUENCES2 = '/media/zhangying/Datas/gitCode/VIDNet/src/databases/DAVIS_2016_cp/JPEGImages_224/480p'
-__C.PATH.SEQUENCES = '/media/zhangying/Datas/gitCode/VIDNet/src/databases/DAVIS_2016_vi/JPEGImages/480p'
+__C.PATH.SEQUENCES2 = '/databases/DAVIS_2016_cp/JPEGImages_224/480p'
+__C.PATH.SEQUENCES = '/databases/DAVIS_2016_vi/JPEGImages/480p'
 
 __C.PATH.FLOW = '../../flownet2-pytorch/result/inference/run.epoch-0-flow-field'
 
 # Path to annotations
-__C.PATH.ANNOTATIONS = '/media/zhangying/Datas/gitCode/VIDNet/src/databases/DAVIS_2016_vi/Annotations/480p'
+__C.PATH.ANNOTATIONS = '/databases/DAVIS_2016_vi/Annotations/480p'
 
 # Color palette
 __C.PATH.PALETTE = osp.abspath(osp.join(__C.PATH.ROOT, 'configs/davis/palette.txt'))
