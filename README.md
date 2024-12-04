@@ -5,12 +5,13 @@
 This repo contains an official PyTorch implementation of our paper: [Multilateral Temporal-view Pyramid Transformer for Video Inpainting Detection.](https://arxiv.org/abs/2404.11054)
 
 ## ⏰Update
-
+- **2024-12-04:** Trainging and Test code is uploaded.
 - **2024-07-23:** DVI-VI/OP/CP is uploaded.
 - **2024-07-21:** 📢 Mumpy is accepted by **BMVC2024**!
 - **2024-05-08**: The repo is created.
 
 ## ⏳Todo
+- [ ] The pre-trained weights will be uploaded soon.
 - [x] Make model and code available.
 - [x] Make user guideline available.
 - [ ] Provide YTVI, ~~DVI~~ and FVI dataset.
