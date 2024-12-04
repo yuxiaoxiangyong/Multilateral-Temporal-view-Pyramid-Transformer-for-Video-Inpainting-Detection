@@ -11,9 +11,8 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
 - **2024-05-08**: The repo is created.
 
 ## ⏳Todo
-
-- [ ] Make model and code available.
-- [ ] Make user guideline available.
+- [x] Make model and code available.
+- [x] Make user guideline available.
 - [ ] Provide YTVI, ~~DVI~~ and FVI dataset.
 - [ ] More analysis on why multiple-pyramid decoder.
 
