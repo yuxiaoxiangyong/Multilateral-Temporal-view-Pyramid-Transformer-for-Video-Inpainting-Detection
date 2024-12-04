@@ -67,7 +67,7 @@ def create_multiswin():
                                      global_encoder_config=global_encoder_config)
 
     # Load model weights
-    path = "/media/zhangying/Datas/gitCode/VIDNet/src/model_parameters/swin_ori.pth"
+    path = "../weights/weight.pth"
     model = load_model_weights(model, path, strict=False)
 
     return model, view_configs
@@ -87,7 +87,7 @@ def create_baseline():
                             use_checkpoint=False, fused_window_process=False)
 
     # Load model weights
-    path = "/media/zhangying/Datas/gitCode/VIDNet/src/model_parameters/baseline_b.pth"
+    path = "../weughts/weight.pth"
     model = load_model_weights(model, path, strict=True)
 
     return model

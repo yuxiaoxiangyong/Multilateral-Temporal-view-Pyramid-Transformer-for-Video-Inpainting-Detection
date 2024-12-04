@@ -1,0 +1,10 @@
+timm
+matplotlib
+tensorboardX
+scikit-image
+easydict
+opencv-python
+einops
+ml_collections
+pillow==4.0.0
+

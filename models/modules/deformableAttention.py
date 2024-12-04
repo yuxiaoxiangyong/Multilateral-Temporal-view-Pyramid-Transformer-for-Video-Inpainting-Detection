@@ -17,7 +17,8 @@ class LayerNormProxy(nn.Module):
         x = rearrange(x, 'b c h w -> b h w c')
         x = self.norm(x)
         return rearrange(x, 'b h w c -> b c h w')
-    
+
+
 '''
     The DAttention is used for global cross attention. 
 '''

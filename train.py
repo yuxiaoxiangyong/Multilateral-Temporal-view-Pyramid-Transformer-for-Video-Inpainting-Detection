@@ -282,7 +282,6 @@ def trainIters(args):
     if not args.log_term:
         print ("Training logs will be saved to:", os.path.join(model_dir, 'train.log'))
 
-
     # GPU 
     if args.use_gpu:
         encoder.cuda()
