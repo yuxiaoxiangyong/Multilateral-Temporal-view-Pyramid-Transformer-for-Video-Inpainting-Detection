@@ -89,7 +89,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 pip install -r requirements.txt
 ```
 
-- Go to [mumpy_weights_link]() to download the weights from, and then put them in `weights`.
+- Go to [mumpy_weights_link](https://drive.google.com/file/d/1gpxMheyI8KfeSgMwye_J8TONuk8A-AIe/view?usp=drive_link) to download the weights from, and then put them in `weights`.
 
 #### Training
 
