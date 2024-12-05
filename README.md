@@ -98,6 +98,7 @@ Mumpy is trained on DVI or YTVI. Taking training from DVI as an example.
 - First replace `__C.PATH.SEQUENCES` , `__C.PATH.SEQUENCES2` and  `__C.PATH.SEQUENCES3` in `config.py` to be the training data path.
 - The global variables related to data in the configuration file also need to be modified(e.g., `__C.PATH.ANNOTATIONS`, `__C.PATH.DATA`, `__C.FILES.DB_INFO`).
 - The training of Mumpy requires changing the parameters in the mentationed script. You can adjust it as needed.
+- run ./scripts/train_davis.sh
 
 #### Test
 
