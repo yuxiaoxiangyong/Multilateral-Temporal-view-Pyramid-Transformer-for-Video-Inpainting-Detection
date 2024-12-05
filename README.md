@@ -11,7 +11,7 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
 - **2024-05-08**: The repo is created.
 
 ## ⏳Todo
-- [ ] The pre-trained weights will be uploaded soon.
+- [x] The pre-trained weights will be uploaded soon.
 - [x] Make model and code available.
 - [x] Make user guideline available.
 - [ ] Provide YTVI, ~~DVI~~ and FVI dataset.
