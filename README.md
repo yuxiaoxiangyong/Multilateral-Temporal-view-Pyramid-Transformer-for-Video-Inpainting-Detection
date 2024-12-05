@@ -75,7 +75,7 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
     └── images(images folder)
 ```
 
-### Prepareation
+### Preparation
 
 The code was running on:
 
