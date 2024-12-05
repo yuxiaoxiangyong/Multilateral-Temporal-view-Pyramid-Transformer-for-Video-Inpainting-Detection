@@ -123,8 +123,11 @@ Since the size of the generated image by inpainting methods can influence the ri
 - The file `./configs/youtube/youtubevos_2018.yaml` contains the videos selected for YTVI. Simply follow the instructions for each method to generate the corresponding inpainting videos, and you will obtain the YTVI dataset.
 
 [1] **CVPR 2022** [Towards an end-to-end framework for flow-guided video inpainting.](https://github.com/MCG-NKU/E2FGVI)
+
 [2] **ICCV 2021** [Fuseformer: Fusing fine-grained informationin transformers for video inpainting.](https://github.com/ruiliu-ai/FuseFormer)
+
 [3] **ICCV 2023** [ProPainter:Improving propagation and transformer for video inpainting.](https://github.com/sczhou/ProPainter)
+
 [4] **CVPR 2022** [Inertia-guided flow completion and style fusion for video inpainting.](https://github.com/hitachinsk/ISVI)
 
 #### Free-from Video Inpainting dataset (FVI)
