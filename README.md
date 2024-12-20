@@ -148,10 +148,10 @@ If you have any questions, please feel free to reach me out at yingzhang@stu.ouc
 If you find our repo useful for your research, please consider citing our paper:
 
 ```latex
-@article{zhang2024multilateral,
-  title={Multilateral Temporal-view Pyramid Transformer for Video Inpainting Detection},
-  author={Zhang, Ying and Peng, Bo and Zhou, Jiaran and Zhou, Huiyu and Dong, Junyu and Li, Yuezun},
-  journal={BMVC},
-  year={2024}
+@article{zhang2024mumpy,
+  title={Mumpy: Multilateral Temporal-view Pyramid Transformer for Video Inpainting Detection},
+  author={Zhang, Y and Li, Y and Peng, B and Zhou, J and Zhou, Huiyu and Dong, J},
+  year={2024},
+  journal={BMVC}
 }
 ```
