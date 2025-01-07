@@ -123,7 +123,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 pip install -r requirements.txt
 ```
 
-- Go to [mumpy_weights_link](https://drive.google.com/file/d/1gpxMheyI8KfeSgMwye_J8TONuk8A-AIe/view?usp=drive_link) to download the weights from, and then put them in `weights`.
+- Go to [mumpy_weights_link](https://drive.google.com/file/d/1gpxMheyI8KfeSgMwye_J8TONuk8A-AIe/view?usp=sharing) to download the weights from, and then put them in `weights`.
 
 #### Training
 
@@ -164,7 +164,7 @@ Since the size of the generated image by inpainting methods can influence the ri
 
 #### Free-from Video Inpainting dataset (FVI)
 
-FVI dataset contains 100 test videos that are processed by object removal, and are usually used for demonstrating detection generalization. The download link is [here](https://drive.google.com/file/d/1V7CIZWwt2RV2m0-s5fnkZDtRayRK2Dfv/view?usp=drive_link).
+FVI dataset contains 100 test videos that are processed by object removal, and are usually used for demonstrating detection generalization. The download link is [here](https://drive.google.com/file/d/1V7CIZWwt2RV2m0-s5fnkZDtRayRK2Dfv/view?usp=sharing).
 
 ## 📧Contact
 
