@@ -22,36 +22,6 @@ This repo contains an official PyTorch implementation of our paper: [Multilatera
 
 ## 💬Discussion
 
-1. Why Mumpy is not compare with [VIFST: Video Inpainting Localization Using Multi-view Spatial-Frequency Traces(PRICAI 2023)](https://link.springer.com/chapter/10.1007/978-981-99-7025-4_37)?
-
-- First, although the author once made the source code open, no pre-trained weights were provided.  I can not reproduce the results.
-- Second, when evaluating the IoU and F1 values, the author used OpenCV methods to enhance the appearance of the predictions, which is both unreasonable and unfair. 
-- The source code is here, and the results from VIFST is produced by the above operation.
-```python
-    def process_mask(file, bin=False):
-    if bin:
-        gray = file
-    else:
-        img = cv2.imread(file)
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    # restrict to [0 - 255]
-    _, threshold = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_MASK)
-    
-    # noise removal
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-    opening = cv2.morphologyEx(threshold, cv2.MORPH_OPEN, kernel, iterations=2)
-
-    sure_bg = cv2.dilate(opening, kernel, iterations=2)  # sure background area
-    sure_op = cv2.erode(opening, kernel, iterations=2)  # sure foreground area
-    sure_fg = cv2.erode(sure_bg, kernel, iterations=2)  # sure foreground area
-    # cv2.imshow('1', to_binary(sure_fg))
-    # cv2.imshow('2', to_binary(sure_op))
-    # cv2.imshow('gray', gray)
-    # cv2.waitKey(-1)
-    return to_binary(sure_fg), to_binary(sure_op)
-```
-- Regarding prior work on video inpainting detection, I have confirmed with the first author that all prediction results were obtained using a threshold of 0.5. Here, I call on all researchers in this field to ensure fair comparisons. Additionally, the DVI dataset contains relatively few samples, and most of its videos exhibit high frame density, resulting in minimal motion across consecutive frames. As a result, spatial inconsistency cues play a predominant role.
-This explains why current SOTA image manipulation detection methods achieve highly competitive performance on the DVI dataset. Therefore, the YTVI dataset may serve as a more reliable benchmark for evaluation in this field.
 - ## 🌏Overview
 
 <img src=".\images\overview.png" style="zoom: 25%;" />
